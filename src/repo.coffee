@@ -135,7 +135,7 @@ module.exports = class Repo
   # callback - Receives `(err)`.
   # 
   create_tag: (name, callback) ->
-    @git "tag", {a: name}, callback
+    @git "tag", {}, [name], callback
   
   # Public: Delete the tag.
   # 
