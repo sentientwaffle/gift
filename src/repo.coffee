@@ -215,6 +215,7 @@ module.exports = class Repo
   # 
   commit: (message, options, callback) ->
     [options, callback] = [callback, options] if !callback
+    options ?= {}
     options = _.extend options, {m: "'#{message}'"}
     @git "commit", options, (err, stdout, stderr) ->
       callback err
@@ -246,7 +247,8 @@ module.exports = class Repo
   # 
   # callback - Receives `(err)`.
   # 
-  sync: (callback) ->
+  sync: (branch, callback) ->
+    [callback, branch] = [branch, []] if !callback
     @git "stash", {}, ["save"], (err) =>
       return callback err if err
       @git "pull", {}, branch, (err) =>
