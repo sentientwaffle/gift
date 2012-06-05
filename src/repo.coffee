@@ -156,7 +156,15 @@ module.exports = class Repo
   # 
   delete_tag: (name, callback) ->
     @git "tag", {d: name}, callback
-  
+
+  # Public: Push tags.
+  #
+  # remote   - Remote name
+  # callback - Receives `(err)`.
+  #
+  push_tags: (remote, callback) ->
+    remote ?= "master"
+    @git "push", {tags: true}, remote, callback
   
   # Public: Get a list of branches.
   # 
