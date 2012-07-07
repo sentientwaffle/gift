@@ -1,4 +1,5 @@
 should   = require 'should'
+fs       = require 'fs'
 fixtures = require './fixtures'
 git      = require '../src'
 Commit   = require '../src/commit'
@@ -8,6 +9,7 @@ Tag      = require '../src/tag'
 Status   = require '../src/status'
 
 {Ref, Head} = require '../src/ref'
+{exec}      = require 'child_process'
 
 describe "Repo", ->
   describe "#commits", ->
@@ -199,6 +201,25 @@ describe "Repo", ->
           tags.should.eql []
           done err
   
+  describe "#create_tag", ->
+    repo    = null
+    git_dir = __dirname + "/fixtures/junk_create_tag"
+    before (done) ->
+      fs.mkdir git_dir, 0755, (err) ->
+        return done err if err
+        git.init git_dir, (err) ->
+          return done err if err
+          repo = git(git_dir)
+          fs.writeFileSync "#{git_dir}/foo.txt", "cheese"
+          repo.add "#{git_dir}/foo.txt", (err) ->
+            return done err if err
+            repo.commit "initial commit", {all: true}, done
+
+    after (done) ->
+      exec "rm -rf #{ git_dir }", done
+
+    it "creates a tag", (done) ->
+      repo.create_tag "foo", done
   
   describe "#delete_tag", ->
     describe "deleting a tag that does not exist", ->

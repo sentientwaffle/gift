@@ -14,7 +14,7 @@ module.exports = Git = (path, bare=false) ->
 # callback - Receives `(err, repo)`.
 # 
 Git.init = (path, callback) ->
-  exec "git init .", {cwd: git_dir}
+  exec "git init .", {cwd: path}
   , (err, stdout, stderr) ->
     return callback err if err
     return callback err, (new Repo path)

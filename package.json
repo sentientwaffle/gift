@@ -1,5 +1,5 @@
 { "name":        "gift"
-, "version":     "0.0.2"
+, "version":     "0.0.5"
 , "description": "a Git wrapper library"
 , "keywords":   ["git"]
 , "homepage":    "https://github.com/sentientwaffle/gift"
