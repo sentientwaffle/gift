@@ -1,31 +1,31 @@
-{ "name":        "gift"
-, "version":     "0.0.5"
+{ "name":        "gift-plus"
+, "version":     "0.0.6"
 , "description": "a Git wrapper library"
 , "keywords":   ["git"]
-, "homepage":    "https://github.com/sentientwaffle/gift"
-, "bugs": {"url": "https://github.com/sentientwaffle/gift/issues"}
+, "homepage":    "https://github.com/leecookson/gift"
+, "bugs": {"url": "https://github.com/leecookson/gift/issues"}
 , "author":
-  { "name": "sentientwaffle"
-  , "url":  "http://sentientwaffle.github.com/"
+  { "name": "leecookson"
+  , "url":  "http://leecookson.github.com/"
   }
 
 , "main": "./lib/index"
 
 , "scripts":
-  { "test":       "mocha"
+  { "test":       "mocha --compilers coffee:coffee-script -R spec"
   , "prepublish": "coffee -o lib -c src"
   }
 
 , "repository":
   { "type": "git"
-  , "url":  "https://github.com/sentientwaffle/gift.git"
+  , "url":  "https://github.com/leecookson/gift.git"
   }
 
 , "dependencies": {"underscore": "1.x.x"}
 , "devDependencies":
-  { "should":        "0.4.x"
-  , "mocha":         "0.x.x"
-  , "coffee-script": "1.1.x"
+  { "should":        "0.6.x"
+  , "mocha":         "1.x.x"
+  , "coffee-script": "1.3.x"
   }
 
 , "engines": {"node": "> 0.4.1"}
