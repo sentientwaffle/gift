@@ -201,8 +201,10 @@ module.exports = class Repo
 
 
   # Public: Checkout the treeish.
-  checkout: (treeish, callback) ->
-    @git "checkout", {}, treeish, callback
+  checkout: (treeish, files, callback) ->
+    [files, callback] = [callback, files] if !callback
+    files ?= []
+    @git "checkout", {}, _.flatten([treeish,'--',files]), callback
 
 
   # Public: Commit some code.
