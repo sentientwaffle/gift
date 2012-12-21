@@ -7,7 +7,7 @@ module.exports = class Commit
     # Public: Get the commit's Tree.
     # 
     # Returns Tree.
-    @tree = _.memoize => (new Tree this, tree)
+    @tree = _.memoize => (new Tree this.repo, tree)
     
     # Public: Get the Commit's parent Commits.
     # 

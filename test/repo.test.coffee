@@ -205,7 +205,7 @@ describe "Repo", ->
     repo    = null
     git_dir = __dirname + "/fixtures/junk_create_tag"
     before (done) ->
-      fs.mkdir git_dir, 0755, (err) ->
+      fs.mkdir git_dir, 0o0755, (err) ->
         return done err if err
         git.init git_dir, (err) ->
           return done err if err
