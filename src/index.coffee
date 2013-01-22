@@ -13,8 +13,13 @@ module.exports = Git = (path, bare=false) ->
 # path     - The directory to run `git init .` in.
 # callback - Receives `(err, repo)`.
 # 
-Git.init = (path, callback) ->
-  exec "git init .", {cwd: path}
+Git.init = (path, bare, callback) ->
+  [bare, callback] = [callback, bare] if !callback
+  if bare
+    bash = "git init --bare ."
+  else
+    bash = "git init ."
+  exec bash, {cwd: path}
   , (err, stdout, stderr) ->
     return callback err if err
     return callback err, (new Repo path)
