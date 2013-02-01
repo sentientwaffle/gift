@@ -29,8 +29,8 @@ describe "Repo", ->
         commits[0].repo.should.eql repo
         commits[0].author.name.should.eql "sentientwaffle"
         commits[0].committer.name.should.eql "sentientwaffle"
-        commits[0].authored_date.should.be.an.instanceof Date
-        commits[0].committed_date.should.be.an.instanceof Date
+        (commits[0].authored_date instanceof Date).should.be.true
+        (commits[0].committed_date instanceof Date).should.be.true
         commits[0].parents().should.be.an.instanceof Array
         commits[0].message.should.eql "add a sub dir"
     
