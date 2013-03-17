@@ -299,18 +299,26 @@ module.exports = class Repo
 
   # Public: Sync the current branch with the remote.
   #
+  # Arguments: ([[remote_name, ]branch_name, ]callback)
+  #
+  # remote_name - String (optional).
+  # branch_name - String.
   # callback - Receives `(err)`.
   #
-  sync: (remote_name, branch, callback) ->
-    [remote_name, callback, branch] = ['origin', branch, remote_name] if !callback
-    [remote_name, callback, branch] = ['origin', remote_name, []]     if !branch
+  sync: (remote_name, branch_name, callback) ->
+
+    # handle 'curried' arguments
+    [remote, branch] = [remote_name, branch_name]                     if typeof callback    is "function"
+    [remote, branch, callback] = ["origin", remote_name, branch_name] if typeof branch_name is "function"
+    [remote, branch, callback] = ["origin", "master", remote_name]    if typeof remote_name is "function"
+
     @status (err, status) =>
       return callback err if err
       @git "stash", {}, ["save"], (err) =>
         return callback err if err
-        @git "pull", {}, [remote_name, branch], (err) =>
+        @git "pull", {}, [remote, branch], (err) =>
           return callback err if err
-          @git "push", {}, [remote_name, branch], (err) =>
+          @git "push", {}, [remote, branch], (err) =>
             return callback err if err
             if not status?.clean
               @git "stash", {}, ["pop"], (err) =>

@@ -143,14 +143,14 @@ Commit some changes.
 ### `Repo#checkout(treeish, callback)`
 `git checkout <treeish>`
 
-### `Repo#sync([remote_name, ]branch, callback)`
+### `Repo#sync([[remote, ]branch, ]callback)`
 Sync the current branch with the remote, keeping all local changes intact.
 
 The following steps are carried out: `stash`, `pull`, `push`, `stash pop`. If there were no changes to stash, the last `stash pop` is not executed.
 
-  * `remote_name`  - `String`
-  * `branch`       - `String`
-  * `callback`     - Receives `(err)`.
+  * `remote`   - `String` (defaults to `origin`).
+  * `branch`   - `String` (defaults to `master`).
+  * `callback` - Receives `(err)`.
 
 
 ## Commit

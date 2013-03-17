@@ -1,4 +1,5 @@
 should   = require 'should'
+sinon    = require 'sinon'
 fs       = require 'fs'
 fixtures = require './fixtures'
 git      = require '../src'
@@ -13,6 +14,43 @@ Status   = require '../src/status'
 {exec}      = require 'child_process'
 
 describe "Repo", ->
+  describe "#sync", ->
+    describe "when passed curried arguments", ->
+      repo  = fixtures.branched
+      remote = branch = ""
+
+      before ->
+        sinon.stub repo, "git", (command, opts, args, callback) ->
+          if command is "pull"
+            remote = args[0]
+            branch = args[1]
+          callback? null
+        sinon.stub repo, "status", (callback) ->
+          callback? null, clean: no
+
+      after ->
+        repo.git.restore()
+        repo.status.restore()
+
+      it "passes through the correct parameters when nothing is omitted", (done) ->
+        repo.sync "github", "my-branch", ->
+          remote.should.eql "github"
+          branch.should.eql "my-branch"
+          done()
+
+      it "passes through the correct parameters when remote_name is omitted", (done) ->
+        repo.sync "my-branch", ->
+          remote.should.eql "origin"
+          branch.should.eql "my-branch"
+          done()
+
+      it "passes through the correct parameters when remote_name and branch are omitted", (done) ->
+        repo.sync ->
+          remote.should.eql "origin"
+          branch.should.eql "master"
+          done()
+
+
   describe "#identify", ->
     describe "when asked to set the identity's name and email", ->
       repo  = fixtures.branched
