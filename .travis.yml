@@ -2,3 +2,6 @@ language: node_js
 node_js:
   - 0.4
   - 0.6
+before_script:
+  - git config --global user.name "Gift Travis"
+  - git config --global user.email gift@travis
