@@ -11,10 +11,38 @@ A simple Node.js wrapper for the Git CLI. The API is based on
 
 # API
 
+For existing repositories:
+
     git  = require 'gift'
 
     repo = git "path/to/repo"
     # => #<Repo>
+
+Initialize a new repository:
+
+    git = require 'gift'
+
+    git.init "path/to/repo", (err, _repo) ->
+      repo = _repo
+      # => #<Repo>
+
+Initialize a new bare repository:
+
+    git = require 'gift'
+
+    git.init "path/to/bare/repo", true, (err, _repo) ->
+      repo = _repo
+      # => #<Repo>
+
+Clone a repository:
+
+    git = require 'gift'
+
+    git.clone "git@host:path/to/remote/repo.git", "path/to/local/clone/repo", (err, _repo) ->
+      repo = _repo
+      # => #<Repo>
+
+The directory where you initialize a new repository should exist.
 
 ## Repo
 ### `Repo#path`
