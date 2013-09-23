@@ -11,6 +11,7 @@ module.exports = Git = (path, bare=false) ->
 # Public: Initialize a git repository.
 # 
 # path     - The directory to run `git init .` in.
+# bare     - Create a bare repository when true.
 # callback - Receives `(err, repo)`.
 # 
 Git.init = (path, bare, callback) ->
