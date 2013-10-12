@@ -3,7 +3,7 @@ fs     = require 'fs'
 
 module.exports = Git = (git_dir, dot_git) ->
   dot_git ||= "#{git_dir}/.git"
-  
+
   git = (command, options, args, callback) ->
     [callback, args]    = [args, callback] if !callback
     [callback, options] = [options, callback] if !callback
@@ -15,26 +15,26 @@ module.exports = Git = (git_dir, dot_git) ->
     bash     = "#{Git.bin} #{command} #{options} #{args}"
     exec bash, {cwd: git_dir}, callback
     return bash
-  
-  
+
+
   # Public: Get a list of the remote names.
-  # 
+  #
   # callback - Receives `(err, names)`.
-  # 
+  #
   git.list_remotes = (callback) ->
     fs.readdir "#{dot_git}/refs/remotes", (err, files) ->
       callback err, (files || [])
-  
-  
+
+
   # Public: Get the ref data string.
-  # 
+  #
   # type     - Such as `remote` or `tag`.
   # callback - Receives `(err, stdout)`.
-  # 
+  #
   git.refs = (type, options, callback) ->
     [callback, options] = [options, callback] if !callback
     prefix              = "refs/#{type}s/"
-    
+
     git "show-ref", (err, text) ->
       matches = []
       for line in (text || "").split("\n")
@@ -43,7 +43,7 @@ module.exports = Git = (git_dir, dot_git) ->
         if name.substr(0, prefix.length) == prefix
           matches.push "#{name.substr(prefix.length)} #{id}"
       return callback err, matches.join("\n")
-  
+
   return git
 
 

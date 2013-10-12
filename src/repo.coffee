@@ -2,6 +2,7 @@ _      = require 'underscore'
 cmd    = require './git'
 Actor  = require './actor'
 Commit = require './commit'
+Config = require './config'
 Tree   = require './tree'
 Diff   = require './diff'
 Tag    = require './tag'
@@ -183,6 +184,9 @@ module.exports = class Repo
   #
   status: (callback) ->
     return Status(this, callback)
+
+  config: (callback) ->
+    return Config(this, callback)
 
 
   # Public: Get the repository's tags.
