@@ -22,7 +22,7 @@ module.exports = class Diff
     diffs = []
     
     while lines.length && lines[0]
-      [m, a_path, b_path] = ///^diff\s--git\sa/(.+?)\sb/(.+)$///.exec lines.shift()
+      [m, a_path, b_path] = ///^diff\s--git\s"?a/(.+?)"?\s"?b/(.+)"?$///.exec lines.shift()
       
       if /^old mode/.test lines[0]
         [m, a_mode] = /^old mode (\d+)/.exec lines.shift()
