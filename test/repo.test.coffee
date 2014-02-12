@@ -1,6 +1,8 @@
 should   = require 'should'
 sinon    = require 'sinon'
+
 fs       = require 'fs'
+rimraf   = require 'rimraf'
 fixtures = require './fixtures'
 git      = require '../src'
 Actor    = require '../src/actor'
@@ -14,6 +16,63 @@ Status   = require '../src/status'
 {exec}      = require 'child_process'
 
 describe "Repo", ->
+
+  describe "#add", ->
+    repo    = null
+    git_dir = __dirname + "/fixtures/junk_add"
+    status  = null
+    file    = null
+      
+    # given a fresh new repo
+    before (done) ->
+      rimraf git_dir, (err) ->
+        return done err if err
+        fs.mkdir git_dir, '0755', (err) ->
+          return done err if err
+          git.init git_dir, (err) ->
+            return done err if err
+            repo = git git_dir
+            done()
+
+    after (done) ->
+      rimraf git_dir, done
+
+    describe "with only a file", ->
+      file = 'foo.txt'
+      # given a new file
+      before (done) ->
+        fs.writeFile "#{git_dir}/#{file}", "cheese", (err) ->
+          return done err if err?
+          repo.add "#{git_dir}/#{file}", (err) ->
+            return done err if err?
+            repo.status (err, _status) ->
+              status = _status
+              done err
+      
+      it "was added", ->
+        status.files.should.have.a.property file
+        status.files[file].staged.should.be.true
+        status.files[file].tracked.should.be.true
+        status.files[file].type.should.eql 'A'
+
+    describe "with no file and all option", ->
+      file = 'bar.txt'
+      # given a new file
+      before (done) ->
+        fs.writeFile "#{git_dir}/#{file}", "cheese", (err) ->
+          return done err if err?
+          repo.add [], A:true, (err) ->
+            return done err if err?
+            repo.status (err, _status) ->
+              status = _status
+              done err
+      
+      it "was added", ->
+        status.files.should.have.a.property file
+        status.files[file].staged.should.be.true
+        status.files[file].tracked.should.be.true
+        status.files[file].type.should.eql 'A'
+
   describe "#sync", ->
     describe "when passed curried arguments", ->
       repo  = fixtures.branched
@@ -74,8 +133,51 @@ describe "Repo", ->
         ident.name.should.eql  name
         ident.email.should.eql email
 
-
   describe "#commits", ->
+
+    describe "with a single commit", ->
+      repo    = null
+      commit  = null
+      git_dir = __dirname + "/fixtures/junk_commit"
+
+      # given a fresh new repo
+      before (done) ->
+        rimraf git_dir, (err) ->
+          return done err if err?
+          fs.mkdir git_dir, '0755', (err) ->
+            return done err if err?
+            git.init git_dir, (err) ->
+              return done err if err?
+              repo = git(git_dir)
+              fs.writeFileSync "#{git_dir}/foo.txt", "cheese"
+              repo.identify new Actor('root', 'root@domain.net'), (err) ->
+                return done err if err?
+                repo.add "#{git_dir}/foo.txt", (err) ->
+                  return done err if err?
+                  repo.commit 'message with spaces', 
+                    author: 'Someone <someone@somewhere.com>'
+                  , (err) ->
+                    return done err if err?
+                    repo.commits (err, _commits) ->
+                      commit = _commits[0]
+                      done err
+
+      after (done) ->
+        rimraf git_dir, done
+
+      it "has right message", (done) ->
+        commit.message.should.eql 'message with spaces'
+        commit.author.name.should.eql 'Someone'
+        commit.author.email.should.eql 'someone@somewhere.com'
+        done()
+
+      it "has a tree", (done) ->
+        commit.tree().should.be.an.instanceof Tree
+        commit.tree().contents (err, child) ->
+          return done err if err
+          child.length.should.eql 1
+          child[0].name.should.eql 'foo.txt'
+          done()
     describe "with only a callback", ->
       repo    = fixtures.branched
       commits = null
@@ -145,7 +247,6 @@ describe "Repo", ->
 
       it "returns 2 commits", ->
         commits[0].message.should.include "commit 4"
-
 
   describe "#tree", ->
     repo = fixtures.branched
@@ -267,20 +368,23 @@ describe "Repo", ->
   describe "#create_tag", ->
     repo    = null
     git_dir = __dirname + "/fixtures/junk_create_tag"
+
     before (done) ->
-      fs.mkdir git_dir, 0o755, (err) ->
+      rimraf git_dir, (err) ->
         return done err if err
-        git.init git_dir, (err) ->
+        fs.mkdir git_dir, 0o755, (err) ->
           return done err if err
-          repo = git(git_dir)
-          repo.identify new Actor('name', 'em@il'), ->
-            fs.writeFileSync "#{git_dir}/foo.txt", "cheese"
-            repo.add "#{git_dir}/foo.txt", (err) ->
-              return done err if err
-              repo.commit "initial commit", {all: true}, done
+          git.init git_dir, (err) ->
+            return done err if err
+            repo = git(git_dir)
+            repo.identify new Actor('name', 'em@il'), ->
+              fs.writeFileSync "#{git_dir}/foo.txt", "cheese"
+              repo.add "#{git_dir}/foo.txt", (err) ->
+                return done err if err
+                repo.commit "initial commit", {all: true}, done
 
     after (done) ->
-      exec "rm -rf #{ git_dir }", done
+      rimraf git_dir, done
 
     it "creates a tag", (done) ->
       repo.create_tag "foo", done

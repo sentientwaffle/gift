@@ -13,8 +13,8 @@ describe "Blob", ->
       blob.mode.should.eql "Y"
     it "assigns @id", ->
       blob.id.should.eql "abc"
-  
-  
+
+
   describe "#data", ->
     describe "of a file off the root", ->
       repo = git "#{__dirname}/fixtures/branched"
@@ -24,11 +24,11 @@ describe "Blob", ->
           blobs[0].data (err, _data) ->
             data = _data
             done err
-      
+
       it "is a string", ->
-        data.should.be.a "string"
+        data.should.be.type "string"
         data.should.include "Bla"
-    
+
     describe "of a file in a subdir", ->
       repo = git "#{__dirname}/fixtures/branched"
       data = null
@@ -38,8 +38,8 @@ describe "Blob", ->
             blobs[0].data (err, _data) ->
               data = _data
               done err
-      
+
       it "is a string", ->
-        data.should.be.a "string"
+        data.should.be.type "string"
         data.should.include "!!!"
 

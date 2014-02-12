@@ -7,7 +7,7 @@ module.exports = S = (repo, callback) ->
   repo.git "status --porcelain", (err, stdout, stderr) ->
     status = new Status repo
     status.parse stdout
-    callback err, status
+    return callback err, status
 
 S.Status = class Status
   constructor: (@repo) ->

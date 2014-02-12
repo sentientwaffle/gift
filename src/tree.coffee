@@ -61,7 +61,7 @@ module.exports = class Tree
       [dir, rest] = file.split "/", 2
       @trees (err, _trees) =>
         for tree in _trees
-          return callback rest, callback if tree.name == dir
+          return tree.find rest, callback if tree.name == dir
         return callback null, null
     else
       @contents (err, children) ->

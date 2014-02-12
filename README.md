@@ -1,15 +1,11 @@
-# Gift
-
-### Not active, see [this fork](https://github.com/notatestuser/gift)
-
-[![Build Status](https://secure.travis-ci.org/sentientwaffle/gift.png?branch=master)](http://travis-ci.org/sentientwaffle/gift)
+# Gift [![Build Status](https://secure.travis-ci.org/notatestuser/gift.png?branch=master)](http://travis-ci.org/notatestuser/gift) [![Dependency Status](https://david-dm.org/notatestuser/gift.png)](https://david-dm.org/notatestuser/gift)
 
 A simple Node.js wrapper for the Git CLI. The API is based on
 [Grit](https://github.com/mojombo/grit)
 
-# Installation
+# Installation (of this fresher fork)
 
-    $ npm install gift
+    $ npm install gift@>0.0.6
 
 # API
 
@@ -163,6 +159,7 @@ Commit some changes.
   * `options`  -
     - `all`    - `Boolean`
     - `amend`  - `Boolean`
+    - `author` - `String` that must match "Au thor Author <author@nowhere.org>"
   * `callback` - Receives `(err)`.
 
 ### `Repo#add(files, callback)`
@@ -191,9 +188,8 @@ The following steps are carried out: `stash`, `pull`, `push`, `stash pop`. If th
 ### `Commit#parents`
 `Commit[]`
 
-### `Commit#tree(callback)`
-
-  * `callback` - Receives `(err, tree)`.
+### `Commit#tree()`
+`Tree` - The commit's content tree.
 
 ### `Commit#author`
 `Actor`

@@ -185,6 +185,21 @@ module.exports = class Repo
   status: (callback) ->
     return Status(this, callback)
 
+  # Public: Show information about files in the index and the 
+  #         working tree.
+  #
+  # options  - An Object of command line arguments to pass to
+  #            `git ls-files` (optional).
+  # callback - Receives `(err,stdout)`.
+  #
+  ls_files: (options, callback) ->
+    [options, callback] = [callback, options] if !callback
+    @git "ls-files", options
+    , (err, stdout, stderr) =>
+      return callback err if err
+      return callback null, @parse_lsFiles stdout,options
+
+
   config: (callback) ->
     return Config(this, callback)
 
@@ -269,24 +284,30 @@ module.exports = class Repo
   # options  - Object (optional).
   #            "amend" - Boolean
   #            "all"   - Boolean
+  #            "author"- String formated like: A U Thor <author@example.com>
   # callback - Receives `(err)`.
   #
   commit: (message, options, callback) ->
     [options, callback] = [callback, options] if !callback
     options ?= {}
-    options = _.extend options, {m: "'#{message}'"}
-    @git "commit", options, (err, stdout, stderr) ->
-      callback err
+    options = _.extend options, {m: "\"#{message}\""}
+    # add quotes around author
+    options.author = "\"#{options.author}\"" if options.author?
+    @git "commit", options, callback
 
   # Public: Add files to the index.
   #
   # files    - Array of String paths; or a String path.
+  # options  - Object (optional).
+  #            "all"   - Boolean
   # callback - Receives `(err)`.
-  #
-  add: (files, callback) ->
+  # 
+  add: (files, options, callback) ->
+    [options, callback] = [callback, options] if !callback
+    options ?= {}
     files = [files] if _.isString files
-    @git "add", {}, files, callback
-
+    @git "add", options, files, callback
+  
   # Public: Remove files from the index.
   #
   # files    - Array of String paths; or a String path.
@@ -330,3 +351,20 @@ module.exports = class Repo
                 return callback null
             else
               return callback null
+    
+  # Internal: Parse the list of files from `git ls-files`
+  # 
+  # Return Files[]
+  parse_lsFiles: (text,options) ->
+    files = []
+    if _.has(options,'z')
+      lines   = text.split "\0"
+    else
+    	lines   = text.split "\n"
+    while lines.length
+      line =  lines.shift().split(" ")
+      files.push line
+      while lines[0]? && !lines[0].length
+        lines.shift()
+
+    return files

@@ -2,7 +2,7 @@ crypto = require 'crypto'
 
 module.exports = class Actor
   constructor: (@name, @email) ->
-    if email
+    if @email
       @hash = crypto.createHash("md5").update(@email, "ascii").digest("hex")
   
   # Public: Get a string representation of the Actor.

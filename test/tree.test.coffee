@@ -106,7 +106,18 @@ describe "Tree", ->
       it "finds the Tree", ->
         subtree.should.be.an.instanceof Tree
         subtree.name.should.eql "some"
-    
+        
+    describe "find inside a directory", ->
+      blob = null
+      before (done) ->
+        tree.find "some/hi.txt", (err, _blob) ->
+          blob = _blob
+          done err
+      
+      it "finds the Blob", ->
+        blob.should.be.an.instanceof Blob
+        blob.name.should.eql "hi.txt"
+
     describe "find a nonexistant file", ->
       subtree = null
       before (done) ->
