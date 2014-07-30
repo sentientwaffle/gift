@@ -202,8 +202,10 @@ module.exports = class Repo
   # name     - String name of the remote
   # callback - Receives `(err)`.
   #
-  remote_fetch: (name, callback) ->
-    @git "fetch", {}, name
+  remote_fetch: (name, options, callback) ->
+    [options, callback] = [callback, options] if !callback
+
+    @git "fetch", options, name
     , (err, stdout, stderr) ->
       callback err
 
@@ -213,14 +215,18 @@ module.exports = class Repo
   # branch   - (optional) Branch to push
   # callback - Receives `(err)`.
   #
-  remote_push: (name, branch, callback) ->
-    if !callback
+  remote_push: (name, branch, options, callback) ->
+    if !options && !callback
       callback = branch
       args = name
+      options = {}
     else
+      if !callback
+        callback = options
+        options = {}
       args = [name, branch]
 
-    @git "push", {}, args
+    @git "push", options, args
     , (err, stdout, stderr) ->
       callback err
 
@@ -229,8 +235,10 @@ module.exports = class Repo
   # name     - String name of the source
   # callback - Receives `(err)`.
   #
-  merge: (name, callback) ->
-    @git "merge", {}, name
+  merge: (name, options, callback) ->
+    [options, callback] = [callback, options] if !callback
+
+    @git "merge", options, name
     , (err, stdout, stderr) ->
       callback err
 

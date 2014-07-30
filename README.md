@@ -118,14 +118,17 @@ Equivalent to `git remote add <name> <url>`.
 ### `Repo#remote_remove(name, callback)`
 Remove a remote.
 
-### `Repo#remote_fetch(name, callback)`
+### `Repo#remote_fetch(name, [options, ]callback)`
 `git fetch <name>`
 
-### `Repo#remote_push(name, [branch, ]callback)`
+### `Repo#remote_push(name, [branch, options, ]callback)`
 `git push <name>`
 
 with branch parameter specified:
 `git push <name> <branch>`
+
+### `Repo#merge(name, [options, ]callback)`
+`git merge <name>`
 
 ### `Repo#status(callback)`
 Uses `--porcelain` to parse repository status in a way that is agnostic of system language. The callback receives `(err, status)`. See below for a definition of what `status` is.
