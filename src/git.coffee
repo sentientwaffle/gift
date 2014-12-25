@@ -1,7 +1,8 @@
 fs     = require 'fs'
 {exec} = require 'child_process'
 
-module.exports = Git = (git_dir, dot_git) ->
+module.exports = Git = (git_dir, dot_git, git_options) ->
+  git_options ||= {}
   dot_git ||= "#{git_dir}/.git"
 
   git = (command, options, args, callback) ->
@@ -12,7 +13,7 @@ module.exports = Git = (git_dir, dot_git) ->
     options  = options.join " "
     args    ?= []
     args     = args.join " " if args instanceof Array
-    bash     = "#{Git.bin} #{command} #{options} #{args}"
+    bash     = "#{git_options.bin || Git.bin} #{command} #{options} #{args}"
     exec bash, {cwd: git_dir}, callback
     return bash
 

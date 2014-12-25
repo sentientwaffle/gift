@@ -4,8 +4,8 @@ Repo   = require './repo'
 # Public: Create a Repo from the given path.
 # 
 # Returns Repo.
-module.exports = Git = (path, bare=false) ->
-  return new Repo path, bare
+module.exports = Git = (path, bare=false, git_options={}) ->
+  return new Repo path, bare, git_options
 
 
 # Public: Initialize a git repository.

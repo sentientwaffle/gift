@@ -11,12 +11,12 @@ Status = require './status'
 {Ref, Head} = require './ref'
 
 module.exports = class Repo
-  constructor: (@path, @bare) ->
+  constructor: (@path, @bare, @git_options) ->
     if @bare
       @dot_git = @path
     else
       @dot_git = "#{@path}/.git"
-    @git  = cmd @path, @dot_git
+    @git  = cmd @path, @dot_git, @git_options
 
 
   # Public: Get the commit identity for this repository.
