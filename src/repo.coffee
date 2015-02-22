@@ -160,6 +160,7 @@ module.exports = class Repo
         return callback err, Diff.parse_raw(this, stdout)
       else
         return callback err, Diff.parse(this, stdout)
+    , 'binary'
 
 
   # Public: Get the repository's remotes.

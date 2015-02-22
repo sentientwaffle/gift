@@ -5,7 +5,7 @@ module.exports = Git = (git_dir, dot_git, git_options) ->
   git_options ||= {}
   dot_git ||= "#{git_dir}/.git"
 
-  git = (command, options, args, callback) ->
+  git = (command, options, args, callback, encoding) ->
     [callback, args]    = [args, callback] if !callback
     [callback, options] = [options, callback] if !callback
     options ?= {}
@@ -13,14 +13,15 @@ module.exports = Git = (git_dir, dot_git, git_options) ->
     options  = options.join " "
     args    ?= []
     args     = args.join " " if args instanceof Array
+    encoding ?= 'utf8'
     bash     = "#{git_options.bin || Git.bin} #{command} #{options} #{args}"
-    exec bash, {cwd: git_dir, encoding:'binary'}, callback
+    exec bash, {cwd: git_dir, encoding: encoding}, callback
     return bash
 
   # Public: Passthrough for raw git commands
   #
-  git.cmd  = (command, options, args, callback) ->
-    git command, options, args, callback
+  git.cmd  = (command, options, args, callback, encoding) ->
+    git command, options, args, encoding, callback
 
   # Public: stream results of git command
   #
@@ -28,12 +29,13 @@ module.exports = Git = (git_dir, dot_git, git_options) ->
   #
   # returns [outstream, errstream]
   #
-  git.streamCmd = (command, options, args) ->
+  git.streamCmd = (command, options, args, encoding) ->
     options ?= {}
     options  = options_to_argv options
     args    ?= []
     allargs = [command].concat(options).concat(args)
-    process  = spawn Git.bin, allargs, {cwd: git_dir, encoding: 'binary'}
+    encoding ?= 'utf8'
+    process  = spawn Git.bin, allargs, {cwd: git_dir, encoding: encoding}
     return [process.stdout, process.stderr]
 
   # Public: Get a list of the remote names.
