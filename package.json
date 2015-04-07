@@ -17,7 +17,7 @@
   },
   "main": "./lib/index",
   "scripts": {
-    "test": "mocha --compilers coffee:'./node_modules/coffee-script/lib/coffee-script/register'",
+    "test": "mocha --compilers coffee:\"./node_modules/coffee-script/lib/coffee-script/register\"",
     "prepublish": "coffee -o lib -c src"
   },
   "repository": {
