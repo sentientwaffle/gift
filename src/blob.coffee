@@ -16,6 +16,7 @@ module.exports = class Blob
     @repo.git "cat-file", {p: true}, @id
     , (err, stdout, stderr) ->
       return callback err, stdout
+    , 'binary'
 
   # Public: Get the blob contents as a stream
   #

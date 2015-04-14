@@ -27,6 +27,7 @@ module.exports = class Tree
       for line in stdout.split("\n")
         @_contents.push @content_from_string(line) if line
       return callback null, @_contents
+    , 'binary'
 
 
   # Public: Get the child blobs.
