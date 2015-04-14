@@ -14,7 +14,7 @@ module.exports = Git = (git_dir, dot_git, git_options) ->
     args    ?= []
     args     = args.join " " if args instanceof Array
     bash     = "#{git_options.bin || Git.bin} #{command} #{options} #{args}"
-    exec bash, {cwd: git_dir, encoding:'binary'}, callback
+    exec bash, {cwd: git_dir, encoding:'binary', maxBuffer: 5000 * 1024}, callback
     return bash
 
   # Public: Passthrough for raw git commands
