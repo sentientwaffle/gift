@@ -82,7 +82,12 @@ module.exports = class Commit
         while !/^ -----END PGP SIGNATURE-----$/.test lines[0]
           gpgsig.push lines.shift()
         gpgsig.push lines.shift()
-
+      
+      # if converted from mercurial gpgsig may be present with non-valid gpg lines
+      if /^kilnhgcopies/.test lines[0]
+        while /^kilnhgcopies/.test lines[0]
+          lines.shift()
+      
       # not doing anything with this yet, but it's sometimes there
       if /^encoding/.test lines[0]
         encoding = _.last lines.shift().split(" ")
