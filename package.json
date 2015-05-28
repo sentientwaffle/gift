@@ -15,6 +15,7 @@
     "name": "sentientwaffle",
     "url": "http://sentientwaffle.github.com/"
   },
+  "license": "MIT",
   "main": "./lib/index",
   "scripts": {
     "test": "mocha --compilers coffee:\"./node_modules/coffee-script/lib/coffee-script/register\"",
