@@ -83,11 +83,17 @@ module.exports = class Commit
           gpgsig.push lines.shift()
         gpgsig.push lines.shift()
 
+      # if converted from mercurial gpgsig may be present with non-valid gpg lines
+      # e.g. "kilnhgcopies646973742F2E6874616363657373 6170702F2E6874616363657373"
+      # see https://github.com/notatestuser/gift/pull/62
+      while /^kilnhgcopies/.test lines[0]
+        lines.shift()
+
       # not doing anything with this yet, but it's sometimes there
       if /^encoding/.test lines[0]
         encoding = _.last lines.shift().split(" ")
 
-      lines.shift()
+      lines.shift()  if lines.length
 
       message_lines = []
       while /^ {4}/.test lines[0]
