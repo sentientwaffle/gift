@@ -4,9 +4,12 @@ Repo   = require './repo'
 # Public: Create a Repo from the given path.
 #
 # Returns Repo.
-module.exports = Git = (path, bare=false, git_options={}) ->
-  return new Repo path, bare, git_options
+module.exports = Git = (path, bare=false, git_options={
+  maxBuffer: Git.maxBuffer
+}) -> return new Repo path, bare, git_options
 
+# Public: maxBuffer size for git commands
+Git.maxBuffer = 5000 * 1024
 
 # Public: Initialize a git repository.
 #
@@ -23,7 +26,7 @@ Git.init = (path, bare, callback) ->
   exec bash, {cwd: path}
   , (err, stdout, stderr) ->
     return callback err if err
-    return callback err, (new Repo path, bare)
+    return callback err, (new Repo path, bare, { maxBuffer: Git.maxBuffer })
 
 # Public: Clone a git repository.
 #
@@ -35,4 +38,4 @@ Git.clone = (repository, path, callback) ->
   bash = "git clone #{repository} #{path}"
   exec bash, (err, stdout, stderr) ->
     return callback err if err
-    return callback err, (new Repo path)
+    return callback err, (new Repo path, false, { maxBuffer: Git.maxBuffer })
