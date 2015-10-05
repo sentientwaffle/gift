@@ -89,6 +89,12 @@ module.exports = class Commit
       while /^kilnhgcopies/.test lines[0]
         lines.shift()
 
+      # if converted from mercurial gpgsig may be present with non-valid gpg lines
+      # e.g. "HG:extra rebase_source:6c01d74dd05f50ede33608fe3f1b2049d93abbda"
+      # and  "HG:rename-source hg"
+      while /^HG:/.test lines[0]
+        lines.shift()
+
       # not doing anything with this yet, but it's sometimes there
       if /^encoding/.test lines[0]
         encoding = _.last lines.shift().split(" ")
