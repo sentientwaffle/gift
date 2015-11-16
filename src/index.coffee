@@ -35,7 +35,7 @@ Git.init = (path, bare, callback) ->
 # callback   - Receives `(err, repo)`.
 #
 Git.clone = (repository, path, callback) ->
-  bash = "git clone #{repository} #{path}"
+  bash = "git clone \"#{repository}\" \"#{path}\""
   exec bash, (err, stdout, stderr) ->
     return callback err if err
     return callback err, (new Repo path, false, { maxBuffer: Git.maxBuffer })
