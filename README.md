@@ -38,7 +38,7 @@ Clone a repository:
 
     git = require 'gift'
 
-    git.clone "git@host:path/to/remote/repo.git", "path/to/local/clone/repo", (err, _repo) ->
+    git.clone "git@host:path/to/remote/repo.git", "path/to/local/clone/repo", depth, (err, _repo) ->
       repo = _repo
       # => #<Repo>
 

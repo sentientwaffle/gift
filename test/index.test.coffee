@@ -45,7 +45,7 @@ describe "git", ->
     repo = null
     newRepositoryDir = "#{__dirname}/fixtures/clone"
     before (done) ->
-      git.clone "https://github.com/notatestuser/gift.git", newRepositoryDir, (err, _repo) ->
+      git.clone "https://github.com/notatestuser/gift.git", newRepositoryDir, 1, (err, _repo) ->
         repo = _repo
         done err
     it "clone a repository", (done) ->

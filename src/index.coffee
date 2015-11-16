@@ -32,10 +32,14 @@ Git.init = (path, bare, callback) ->
 #
 # repository - The repository to clone from.
 # path       - The directory to clone into.
+# depth      - The specified number of revisions of shallow clone
 # callback   - Receives `(err, repo)`.
 #
-Git.clone = (repository, path, callback) ->
-  bash = "git clone \"#{repository}\" \"#{path}\""
+Git.clone = (repository, path, depth = 0, callback) ->
+  if (0 == depth)
+    bash = "git clone \"#{repository}\" \"#{path}\""
+  else
+    bash = "git clone \"#{repository}\" \"#{path}\" --depth \"#{depth}\""
   exec bash, (err, stdout, stderr) ->
     return callback err if err
     return callback err, (new Repo path, false, { maxBuffer: Git.maxBuffer })
