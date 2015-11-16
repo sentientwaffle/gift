@@ -45,6 +45,22 @@ describe "git", ->
     repo = null
     newRepositoryDir = "#{__dirname}/fixtures/clone"
     before (done) ->
+      git.clone "https://github.com/notatestuser/gift.git", newRepositoryDir, (err, _repo) ->
+        repo = _repo
+        done err
+    it "clone a repository", (done) ->
+      repo.should.be.an.instanceof Repo
+      repo.remote_list (err, remotes) ->
+        remotes.should.have.length 1
+        done()
+    after (done) ->
+      exec "rm -rf #{newRepositoryDir}", done
+
+  describe "clone() with depth", ->
+    @timeout 30000
+    repo = null
+    newRepositoryDir = "#{__dirname}/fixtures/clone_depth"
+    before (done) ->
       git.clone "https://github.com/notatestuser/gift.git", newRepositoryDir, 1, (err, _repo) ->
         repo = _repo
         done err

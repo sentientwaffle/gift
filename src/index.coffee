@@ -36,7 +36,10 @@ Git.init = (path, bare, callback) ->
 # callback   - Receives `(err, repo)`.
 #
 Git.clone = (repository, path, depth = 0, callback) ->
-  if (0 == depth)
+  if typeof depth is 'function'
+    callback = depth
+    depth = 0
+  if depth is 0 or typeof depth isnt 'number'
     bash = "git clone \"#{repository}\" \"#{path}\""
   else
     bash = "git clone \"#{repository}\" \"#{path}\" --depth \"#{depth}\""
