@@ -204,6 +204,13 @@ Checkout some files.
     - `force`   - `Boolean`
   * `callback`  - Receives `(err)`.
 
+### `Repo#pull([[remote, ]branch, ]callback)`
+Pull a branch from remote.
+
+  * `remote`   - `String` (defaults to `origin`).
+  * `branch`   - `String` (defaults to `master`).
+  * `callback` - Receives `(err)`.
+
 ### `Repo#sync([[remote, ]branch, ]callback)`
 Sync the current branch with the remote, keeping all local changes intact.
 
