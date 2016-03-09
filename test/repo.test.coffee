@@ -697,9 +697,23 @@ describe "Repo", ->
       fs.remove git_dir, (err) ->
         done err
 
+    describe "an existing branch", ->
+      beforeEach (done) ->
+        repo.checkout "feature/foo", {b: true}, (err) ->
+          return done err if err?
+          repo.checkout "master", (err) ->
+            return done err if err?
+            repo.branch (err, _head) ->
+              head = _head
+              done err
+
+      it "should succeed", ->
+        head.name.should.equal "master"
+
     describe "and create new branch", ->
       beforeEach (done) ->
-        repo.checkout "feature/foo", {b: true}, ->
+        repo.checkout "feature/foo", {b: true}, (err) ->
+          return done err if err?
           repo.branch (err, _head) ->
             head = _head
             done err
