@@ -365,8 +365,13 @@ module.exports = class Repo
 
 
   # Public: Checkout the treeish.
-  checkout: (treeish, callback) ->
-    @git "checkout", {}, treeish, callback
+  #
+  # options   - The {Object} containing any of the options available to git checkout:
+  #   :b      - {Boolean) Creates a branch when it doesn't exist yet.
+  #
+  checkout: (treeish, options, callback) ->
+    [options, callback] = [{}, options] if !callback
+    @git "checkout", options, treeish, callback
 
   # Public: Clean the git repo by removing untracked files
   #

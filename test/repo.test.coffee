@@ -676,6 +676,37 @@ describe "Repo", ->
           status.files.should.not.have.a.property file
           status.files.should.not.have.a.property 'rawr.txt'
 
+  describe "#checkout", ->
+    repo    = null
+    head    = null
+    git_dir = __dirname + "/fixtures/junk_checkout"
+
+    # given a fresh new repo
+    beforeEach (done) ->
+      fs.remove git_dir, (err) ->
+        return done err if err
+        fs.copy "#{__dirname}/fixtures/reset", "#{git_dir}", (err) ->
+          return done err if err
+          fs.rename "#{git_dir}/git.git", "#{git_dir}/.git", (err) ->
+            git.init git_dir, (err) ->
+              return done err if err
+              repo = git git_dir
+              done()
+
+    after (done) ->
+      fs.remove git_dir, (err) ->
+        done err
+
+    describe "and create new branch", ->
+      beforeEach (done) ->
+        repo.checkout "feature/foo", {b: true}, ->
+          repo.branch (err, _head) ->
+            head = _head
+            done err
+
+      it "should succeed", ->
+        head.name.should.equal "feature/foo"
+
   describe "#checkoutFile", ->
     repo    = null
     git_dir = __dirname + "/fixtures/junk_checkoutFile"
