@@ -193,8 +193,15 @@ Commit some changes.
 ### `Repo#remove(files, callback)`
 `git rm <files>`
 
-### `Repo#checkout(treeish, callback)`
+### `Repo#checkout(treeish, [options], callback)`
 `git checkout <treeish>`
+
+Checkout a branch/commit/...
+
+  * `treeish`   - Branch or treeish to checkout.
+  * `options`   -
+    - `b`       - `Boolean` to create a new branch
+  * `callback`  - Receives `(err)`.
 
 ### `Repo#checkoutFile([files, options, ]callback)`
 Checkout some files.
