@@ -127,10 +127,10 @@ Equivalent to `git remote set-url <name> <url>`.
 ### `Repo#remote_delete_url(name, url, callback)`
 Equivalent to `git remote set-url --delete <name> <url>`.
 
-### `Repo#remote_fetch(name, callback)`
+### `Repo#remote_fetch(name, [options, ]callback)`
 `git fetch <name>`
 
-### `Repo#remote_push(name, [branch,] callback)`
+### `Repo#remote_push(name, [branch, options, ]callback)`
 `git push <name>`
 
 with branch parameter specified:
@@ -141,14 +141,27 @@ Uses `--porcelain` to parse repository status in a way that is agnostic of syste
 `options` is a string of any other options you'd like to pass to the status command.  For example, the `-u` option will list each file in an untracked directory rather than simply listing the directory itself.
  The callback receives `(err, status)`. See below for a definition of what `status` is.
 
+### `Repo#merge(name, [options, ]callback)`
+`git merge <name>`
+
 ### `Repo#config(callback)`
 `git config` parsed as a simple, one-level object. The callback receives `(err, config)`.
+
+### `Repo#branches(callback)`
+`callback` receives `(err, heads)`.
+
+### `Repo#branch([branch, ]callback)`
+Get a branch.
+
+  * `branch`   - The name of the branch to get. Defaults to the
+                 currently checked out branch.
+  * `callback` - Receives `(err, head)`.
 
 ### `Repo#create_branch(name, callback)`
 Create a new branch with `name`, and call the callback when complete
 with an error, if one occurred.
 
-### `Repo#delete_branch(name, callback)`
+### `Repo#delete_branch(delete, callback)`
 Delete the branch `name`, and call the callback with an error, if one occurred.
 
 ### `Repo#tags(callback)`
@@ -159,23 +172,6 @@ Create a tab with the given name.
 
 ### `Repo#delete_tag(name, callback)`
 Delete the tag with the given name.
-
-### `Repo#branches(callback)`
-`callback` receives `(err, heads)`.
-
-### `Repo#create_branch(name, callback)`
-Create a branch with the given name.
-
-### `Repo#delete_branch(delete, callback)`
-Delete the branch with the given name.
-
-### `Repo#branch([branch, ]callback)`
-Get a branch.
-
-  * `branch`   - The name of the branch to get. Defaults to the
-                 currently checked out branch.
-  * `callback` - Receives `(err, head)`.
-
 
 ### `Repo#commit(message, [options, ]callback)`
 Commit some changes.
