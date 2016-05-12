@@ -8,6 +8,7 @@ node_js:
   - "4.0.0"
   - "4.1.1"
   - "4.2"
+  - "5.1"
 
 install:
   - "npm install -g npm@1.4.28"
