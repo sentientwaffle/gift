@@ -259,7 +259,7 @@ Checkout files.
 `Date`
 ### `Commit#message`
 `String`
-### `Commit#description([refs, [first_parent, ]]callback)`
+### `Commit#describe([refs, [first_parent, ]]callback)`
 
  * refs - String (`all`, `tags`, or `null` for default of unannotated tags).
  * first_parent - Boolean (follow lineage or include all ancestry).
