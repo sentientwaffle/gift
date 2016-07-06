@@ -144,9 +144,9 @@ with branch parameter specified:
 Uses `--porcelain` to parse repository status in a way that is agnostic of system language.
 `options` is a string of any other options you'd like to pass to the status command.  For example, the `-u` option will list each file in an untracked directory rather than simply listing the directory itself.
  The callback receives `(err, status)`. See below for a definition of what `status` is.
-
-### `Repo#merge(name, [options, ]callback)`
-`git merge <name>`
+ 
+### `Repo#ls_files([files, ]options, callback)`
+List out the files in the index and working tree. Optionally filtered by a given array of `files` (paths or filenames).
 
 ### `Repo#config(callback)`
 `git config` parsed as a simple, one-level object. The callback receives `(err, config)`.
@@ -167,6 +167,9 @@ with an error, if one occurred.
 
 ### `Repo#delete_branch(delete, callback)`
 Delete the branch `name`, and call the callback with an error, if one occurred.
+
+### `Repo#merge(name, [options, ]callback)`
+`git merge <name>`
 
 ### `Repo#tags(callback)`
 Get a list of `Tag`s.
