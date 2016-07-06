@@ -293,9 +293,11 @@ module.exports = class Repo
   # callback - Receives `(err,stdout)`.
   #
   ls_files: (files, options, callback) ->
-    [options, callback] = [callback, options] if !callback
-    [files, callback]   = [callback, files]   if !callback
-    [files, options]    = [options, files]    if typeof files is 'object' and not _.isArray files
+    # support the old (options, callback) sig
+    if arguments.length < 3
+        [options, callback] = [files, options]
+        files = null
+    callback ?= ->
     options ?= {}
     files ?= ''
     files = [files] if _.isString files
