@@ -289,7 +289,7 @@ module.exports = class Repo
   #
   # files    - Array of String paths; or a String path (optional).
   # options  - An Object of command line arguments to pass to
-  #            `git ls-files` (optional).
+  #            `git ls-files`.
   # callback - Receives `(err,stdout)`.
   #
   ls_files: (files, options, callback) ->
