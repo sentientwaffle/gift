@@ -293,8 +293,12 @@ module.exports = class Repo
   # callback - Receives `(err,stdout)`.
   #
   ls_files: (files, options, callback) ->
+    # support the single arg sig
+    if arguments.length == 1
+        callback = files
+        files = null
     # support the old (options, callback) sig
-    if arguments.length < 3
+    else if arguments.length < 3
         [options, callback] = [files, options]
         files = null
     callback ?= ->
