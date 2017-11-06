@@ -83,7 +83,7 @@ module.exports = class Commit
     lines   = text.split "\n"
     while lines.length
       id   = _.last lines.shift().split(" ")
-      break if !id
+      break if !/^[a-f0-9]{40}$/.test(id)
       tree = _.last lines.shift().split(" ")
 
       parents = []
