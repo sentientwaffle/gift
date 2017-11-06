@@ -1,6 +1,6 @@
 {
   "name": "gift",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "a Git wrapper library",
   "keywords": [
     "git",
