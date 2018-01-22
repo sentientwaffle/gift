@@ -15,15 +15,15 @@ describe "Ref", ->
         Ref.find_all repo, "remote", Ref, (err, _remotes) ->
           remotes = _remotes
           done err
-      
+
       it "is an Array of Refs", ->
         remotes.should.be.an.instanceof Array
         remotes[0].should.be.an.instanceof Ref
-      
+
       it "the first item is a remote", ->
         remotes[0].name.should.eql "origin/HEAD"
         remotes[0].commit.should.be.an.instanceof Commit
-      
+
       it "the second item is a remote", ->
         remotes[1].name.should.eql "origin/master"
         remotes[1].commit.should.be.an.instanceof Commit
@@ -37,18 +37,18 @@ describe "Head", ->
       Head.find_all repo, (err, h) ->
         heads = h
         done err
-    
+
     it "is an Array of Heads", ->
       heads.should.be.an.instanceof Array
       heads[0].should.be.an.instanceof Head
-    
+
     it "contains the branches", ->
       heads.should.have.lengthOf 2
       names = _.map heads, ((b) -> b.name)
-      names.should.include "master"
-      names.should.include "something"
-  
-  
+      names.should.containEql "master"
+      names.should.containEql "something"
+
+
   describe ".current", ->
     repo   = fixtures.branched
     branch = null
@@ -56,9 +56,9 @@ describe "Head", ->
       Head.current repo, (err, b) ->
         branch = b
         done err
-    
+
     it "is a Head", ->
       branch.should.be.an.instanceof Head
-    
+
     it "has the correct name", ->
       branch.name.should.eql "master"

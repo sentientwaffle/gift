@@ -1,2 +1,13 @@
-lib
-node_modules
+# ignore emacs and other editor files
+*~
+\#*\#
+.\#*
+*.swp
+*.swo
+
+src/*.js
+test/*.js
+
+lib/
+node_modules/
+

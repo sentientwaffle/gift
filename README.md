@@ -1,13 +1,31 @@
-# Gift
-
-### Not active, see [this fork](https://github.com/notatestuser/gift)
-
-[![Build Status](https://secure.travis-ci.org/sentientwaffle/gift.png?branch=master)](http://travis-ci.org/sentientwaffle/gift)
+# Gift [![](https://img.shields.io/npm/v/gift.svg) ![](https://img.shields.io/npm/dt/gift.svg)](https://www.npmjs.com/package/gift)
 
 A simple Node.js wrapper for the Git CLI. The API is based on
-[Grit](https://github.com/mojombo/grit)
+[Grit](https://github.com/mojombo/grit).
+
+Tested in all stable versions of node.
+
+[![Build Status](https://secure.travis-ci.org/notatestuser/gift.svg?branch=master)](http://travis-ci.org/notatestuser/gift) [![Dependency Status](https://david-dm.org/notatestuser/gift.svg)](https://david-dm.org/notatestuser/gift) [![devDependency Status](https://david-dm.org/notatestuser/gift/dev-status.svg)](https://david-dm.org/notatestuser/gift#info=devDependencies)
+
+# Table of Contents
+
+- [Installation](#installation)
+- [API](#api)
+  - [Repo](#repo)
+  - [Commit](#commit)
+  - [Head](#head)
+  - [Tag](#tag)
+  - [Config](#config)
+  - [Status](#status)
+  - [Actor](#actor)
+  - [Tree](#tree)
+  - [Blob](#blob)
+  - [Submodule](#submodule)
+- [License](#license)
 
 # Installation
+
+This fork is now in the `npm` package repository. Install it like you would any other package:
 
     $ npm install gift
 
@@ -40,7 +58,7 @@ Clone a repository:
 
     git = require 'gift'
 
-    git.clone "git@host:path/to/remote/repo.git", "path/to/local/clone/repo", (err, _repo) ->
+    git.clone "git@host:path/to/remote/repo.git", "path/to/local/clone/repo", depth, branch, (err, _repo) ->
       repo = _repo
       # => #<Repo>
 
@@ -65,13 +83,22 @@ Or to a different tag or branch.
 
     repo.commits "v0.0.3", (err, commits) ->
 
-Limit the maximum number of commits returned.
+Limit the maximum number of commits returned (by default limit is 10).
 
     repo.commits "master", 30, (err, commits) ->
 
 Skip some (for pagination):
 
     repo.commits "master", 30, 30, (err, commits) ->
+
+Or get an unlimited number of commits (there could be a lot):
+
+    repo.commits "master", -1, (err, commits) ->
+
+### `Repo#current_commit(callback)`
+Get the current commit.
+
+The callback receives `(err, commit)`.
 
 ### `Repo#tree([treeish]) => Tree`
 The `Tree` object for the treeish (which defaults to "master").
@@ -111,24 +138,54 @@ Equivalent to `git remote add <name> <url>`.
 ### `Repo#remote_remove(name, callback)`
 Remove a remote.
 
-### `Repo#remote_fetch(name, callback)`
+### `Repo#remote_add_url(name, url, callback)`
+Equivalent to `git remote set-url --add <name> <url>`.
+
+### `Repo#remote_set_url(name, url, callback)`
+Equivalent to `git remote set-url <name> <url>`.
+
+### `Repo#remote_delete_url(name, url, callback)`
+Equivalent to `git remote set-url --delete <name> <url>`.
+
+### `Repo#remote_fetch(name, [options, ]callback)`
 `git fetch <name>`
 
-### `Repo#remote_push(name, callback)`
+### `Repo#remote_push(name, [branch, options, ]callback)`
 `git push <name>`
 
-### `Repo#status(callback)`
-Uses `--porcelain` to parse repository status in a way that is agnostic of system language. The callback receives `(err, status)`. See below for a definition of what `status` is.
+with branch parameter specified:
+`git push <name> <branch>`
+
+### `Repo#status([options, ]callback)`
+Uses `--porcelain` to parse repository status in a way that is agnostic of system language.
+`options` is a string of any other options you'd like to pass to the status command.  For example, the `-u` option will list each file in an untracked directory rather than simply listing the directory itself.
+ The callback receives `(err, status)`. See below for a definition of what `status` is.
+ 
+### `Repo#ls_files([files, ]options, callback)`
+List out the files in the index and working tree. Optionally filtered by a given array of `files` (paths or filenames).
 
 ### `Repo#config(callback)`
 `git config` parsed as a simple, one-level object. The callback receives `(err, config)`.
+
+### `Repo#branches(callback)`
+`callback` receives `(err, heads)`.
+
+### `Repo#branch([branch, ]callback)`
+Get a branch.
+
+  * `branch`   - The name of the branch to get. Defaults to the
+                 currently checked out branch.
+  * `callback` - Receives `(err, head)`.
 
 ### `Repo#create_branch(name, callback)`
 Create a new branch with `name`, and call the callback when complete
 with an error, if one occurred.
 
-### `Repo#delete_branch(name, callback)`
+### `Repo#delete_branch(delete, force, callback)`
 Delete the branch `name`, and call the callback with an error, if one occurred.
+
+### `Repo#merge(name, [options, ]callback)`
+`git merge <name>`
 
 ### `Repo#tags(callback)`
 Get a list of `Tag`s.
@@ -139,23 +196,6 @@ Create a tab with the given name.
 ### `Repo#delete_tag(name, callback)`
 Delete the tag with the given name.
 
-### `Repo#branches(callback)`
-`callback` receives `(err, heads)`.
-
-### `Repo#create_branch(name, callback)`
-Create a branch with the given name.
-
-### `Repo#delete_branch(delete, callback)`
-Delete the branch with the given name.
-
-### `Repo#branch([branch, ]callback)`
-Get a branch.
-
-  * `branch`   - The name of the branch to get. Defaults to the
-                 currently checked out branch.
-  * `callback` - Receives `(err, head)`.
-
-
 ### `Repo#commit(message, [options, ]callback)`
 Commit some changes.
 
@@ -163,6 +203,7 @@ Commit some changes.
   * `options`  -
     - `all`    - `Boolean`
     - `amend`  - `Boolean`
+    - `author` - `String` that must match "Au thor Author <author@nowhere.org>"
   * `callback` - Receives `(err)`.
 
 ### `Repo#add(files, callback)`
@@ -171,8 +212,30 @@ Commit some changes.
 ### `Repo#remove(files, callback)`
 `git rm <files>`
 
-### `Repo#checkout(treeish, callback)`
+### `Repo#checkout(treeish, [options], callback)`
 `git checkout <treeish>`
+
+Checkout a branch/commit/...
+
+  * `treeish`   - Branch or treeish to checkout.
+  * `options`   -
+    - `b`       - `Boolean` to create a new branch
+  * `callback`  - Receives `(err)`.
+
+### `Repo#checkoutFile([files, options, ]callback)`
+Checkout some files.
+
+  * `files`   - File(s) to checkout. Pass `'.'` or nothing to checkout all files.
+  * `options`   -
+    - `force`   - `Boolean`
+  * `callback`  - Receives `(err)`.
+
+### `Repo#pull([[remote, ]branch, ]callback)`
+Pull a branch from remote.
+
+  * `remote`   - `String` (defaults to `origin`).
+  * `branch`   - `String` (defaults to `master`).
+  * `callback` - Receives `(err)`.
 
 ### `Repo#sync([[remote, ]branch, ]callback)`
 Sync the current branch with the remote, keeping all local changes intact.
@@ -183,6 +246,17 @@ The following steps are carried out: `stash`, `pull`, `push`, `stash pop`. If th
   * `branch`   - `String` (defaults to `master`).
   * `callback` - Receives `(err)`.
 
+### `Repo#reset([treeish, options, ]callback)`
+Checkout files.
+
+  * `treeish`   - The git object to reset to. Defaults to HEAD.
+  * `options`   -
+    - `soft`    - `Boolean`
+    - `mixed`   - `Boolean` __default__
+    - `hard`    - `Boolean`
+    - `merge`   - `Boolean`
+    - `keep`    - `Boolean`
+  * `callback`  - Receives `(err)`.
 
 ## Commit
 ### `Commit#id`
@@ -191,9 +265,8 @@ The following steps are carried out: `stash`, `pull`, `push`, `stash pop`. If th
 ### `Commit#parents`
 `Commit[]`
 
-### `Commit#tree(callback)`
-
-  * `callback` - Receives `(err, tree)`.
+### `Commit#tree()`
+`Tree` - The commit's content tree.
 
 ### `Commit#author`
 `Actor`
@@ -205,7 +278,11 @@ The following steps are carried out: `stash`, `pull`, `push`, `stash pop`. If th
 `Date`
 ### `Commit#message`
 `String`
+### `Commit#describe([refs, [first_parent, ]]callback)`
 
+ * refs - String (`all`, `tags`, or `null` for default of unannotated tags).
+ * first_parent - Boolean (follow lineage or include all ancestry).
+ * callback - `(err, description)` (`description` is String).
 
 ## Head
 ### `Head#name`
@@ -244,7 +321,18 @@ the file is staged, tracked, etc.
 
 Each file has the following properties:
 
-  * `type`    - "A" for added, "M" for modified, "D" for deleted.
+  * `type` which translates to:
+
+| _type_   | index     | working tree |
+| :---     | :-------: | :-----------:|
+| `A `     | added     | -            |
+| `M `     | modified  | -            |
+| `D `     | deleted   | -            |
+| `AM`     | added     | modified     |
+| `MM`     | modified  | modified     |
+| `AD`     | staged    | deleted      |
+| `MD`     | modified  | deleted      |
+
   * `staged`  - `Boolean`
   * `tracked` - `Boolean`
 
@@ -294,6 +382,25 @@ Each file has the following properties:
 ### `Blob#data(callback)`
 
   * `callback` - `(err, data)`
+
+Warning: this method only returns the complete file up to 200k, which is the default
+buffer size for running child_process.exec(). If the file you're reading is bigger than
+that, or if you're not sure, you need to use dataStream()
+
+### `Blob#dataStream()`
+
+  * returns - [dataStream, errorStream]
+
+Returns streams for you to use to get the data.
+
+Usage:
+
+    data = ""
+    [dataStream, _] = blob.dataStream()
+    dataStream.on 'data', (buf) ->
+      data += buf.toString()
+    .on 'end', ->
+      callback(data)
 
 ## Submodule
 ### `Submodule#id`

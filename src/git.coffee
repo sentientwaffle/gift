@@ -1,10 +1,11 @@
 fs     = require 'fs'
-{exec} = require 'child_process'
+{exec, spawn} = require 'child_process'
 
-module.exports = Git = (git_dir, dot_git) ->
+module.exports = Git = (git_dir, dot_git, git_options) ->
+  git_options ||= {}
   dot_git ||= "#{git_dir}/.git"
 
-  git = (command, options, args, callback) ->
+  git = (command, options, args, callback, encoding) ->
     [callback, args]    = [args, callback] if !callback
     [callback, options] = [options, callback] if !callback
     options ?= {}
@@ -12,10 +13,34 @@ module.exports = Git = (git_dir, dot_git) ->
     options  = options.join " "
     args    ?= []
     args     = args.join " " if args instanceof Array
-    bash     = "#{Git.bin} #{command} #{options} #{args}"
-    exec bash, {cwd: git_dir}, callback
+    encoding ?= 'utf8'
+    bash     = "#{git_options.bin || Git.bin} #{command} #{options} #{args}"
+    exec bash, {
+      cwd: git_dir,
+      encoding: encoding,
+      maxBuffer: git_options.maxBuffer || 5000 * 1024
+    }, callback
     return bash
 
+  # Public: Passthrough for raw git commands
+  #
+  git.cmd  = (command, options, args, callback, encoding) ->
+    git command, options, args, callback, encoding
+
+  # Public: stream results of git command
+  #
+  # This is used for large files that you'd need to stream.
+  #
+  # returns [outstream, errstream]
+  #
+  git.streamCmd = (command, options, args, encoding) ->
+    options ?= {}
+    options  = options_to_argv options
+    args    ?= []
+    allargs = [command].concat(options).concat(args)
+    encoding ?= 'utf8'
+    process  = spawn Git.bin, allargs, {cwd: git_dir, encoding: encoding}
+    return [process.stdout, process.stderr]
 
   # Public: Get a list of the remote names.
   #
@@ -36,6 +61,8 @@ module.exports = Git = (git_dir, dot_git) ->
     prefix              = "refs/#{type}s/"
 
     git "show-ref", (err, text) ->
+      # ignore error code 1: means no match
+      err = null if err?.code is 1
       matches = []
       for line in (text || "").split("\n")
         continue if !line

@@ -1,42 +1,47 @@
+_ = require 'underscore'
 Blob = require './blob'
 
 module.exports = class Diff
   constructor: (@repo, @a_path, @b_path, a_blob, b_blob
   , @a_mode, @b_mode, @new_file, @deleted_file, @diff
   , @renamed_file=false, @similarity_index=0) ->
-    @a_blob = new Blob @repo, {id: a_blob} if a_blob
-    @b_blob = new Blob @repo, {id: b_blob} if b_blob
-  
-  
+    if a_blob isnt null
+      @a_blob = new Blob @repo, {id: a_blob}
+      @a_sha = a_blob
+    if b_blob isnt null
+      @b_blob = new Blob @repo, {id: b_blob}
+      @b_sha = b_blob
+
   toJSON: ->
     {@a_path, @b_path, @a_mode, @b_mode, @new_file
     , @deleted_file, @diff, @renamed_file, @similarity_index}
-  
+
   # Public: Parse the Diffs from the command output.
-  # 
+  #
   # text - String stdout of a `git diff` command.
-  # 
+  #
   # Returns Array of Diff.
   @parse: (repo, text) ->
     lines = text.split "\n"
     diffs = []
-    
+
     while lines.length && lines[0]
+      # FIXME shift is O(n), so iterating n over O(n) operation might be O(n^2)
       [m, a_path, b_path] = ///^diff\s--git\s"?a/(.+?)"?\s"?b/(.+)"?$///.exec lines.shift()
-      
+
       if /^old mode/.test lines[0]
         [m, a_mode] = /^old mode (\d+)/.exec lines.shift()
         [m, b_mode] = /^new mode (\d+)/.exec lines.shift()
-      
+
       if !lines.length || /^diff --git/.test(lines[0])
         diffs.push new Diff(repo, a_path, b_path, null, null, a_mode, b_mode, false, false, null)
         continue
-      
+
       sim_index    = 0
       new_file     = false
       deleted_file = false
       renamed_file = false
-      
+
       if /^new file/.test lines[0]
         [m, b_mode] = /^new file mode (.+)$/.exec lines.shift()
         a_mode      = null
@@ -51,16 +56,40 @@ module.exports = class Diff
         # shift away the 2 `rename from/to ...` lines
         lines.shift()
         lines.shift()
-      
+
       [m, a_blob, b_blob, b_mode] = ///^index\s([0-9A-Fa-f]+)\.\.([0-9A-Fa-f]+)\s?(.+)?$///.exec lines.shift()
       b_mode = b_mode.trim() if b_mode
-      
+
       diff_lines = []
       while lines[0] && !/^diff/.test(lines[0])
         diff_lines.push lines.shift()
       diff = diff_lines.join "\n"
-      
+
       diffs.push new Diff(repo, a_path, b_path, a_blob, b_blob, a_mode, b_mode, new_file, deleted_file, diff, renamed_file, sim_index)
-    
+
     return diffs
 
+  # Public: Parse the raw diff format from the command output.
+  #
+  # text - String stdout of a `git diff` command.
+  #
+  # Returns Array of Diff.
+  @parse_raw: (repo, text) ->
+    lines = _.compact(text.split "\n")
+    diffs = []
+
+    for line in lines
+      line = line[1..-1] # get rid of leading ':'
+      line = line.replace(/\.\.\./g, '')
+      [a_mode, b_mode, a_sha, b_sha, status, a_path, b_path] = line.split(/\s/)
+      b_path = a_path unless b_path
+      new_file = status is 'M'
+      deleted_file = status is 'D'
+      renamed_file = status is 'R'
+
+      diffs.push new Diff(
+        repo, a_path, b_path, a_sha, b_sha, a_mode, b_mode,
+        new_file, deleted_file, null, renamed_file, null
+      )
+
+    return diffs

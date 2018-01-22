@@ -19,38 +19,77 @@ describe "Diff", ->
           +12
         """
       diffs = Diff.parse repo, stdout
-      
+
       it "is an Array of Diffs", ->
         diffs.should.be.an.instanceof Array
         diffs[0].should.be.an.instanceof Diff
-      
+
       it "has one diff", ->
         diffs.should.have.lengthOf 1
-      
+
       describe "the first diff", ->
         diff = diffs[0]
-        
+
         it "has the repo", ->
           diff.repo.should.eql repo
-        
+
         for blob in ["a_blob", "b_blob"]
           it "has a #{blob}", ->
             diff[blob].should.be.an.instanceof Blob
-        
+
         for path in ["a_path", "b_path"]
           it "has a #{path}", ->
             diff[path].should.eql "file.txt"
-        
+
         it "has a b_mode", ->
           diff.b_mode.should.eql "100644"
-        
+
         for change in ["new_file", "renamed_file", "deleted_file"]
           it "#{change} is false", ->
             diff[change].should.be.false
-        
+
         it "has a similarity_index of 0", ->
           diff.similarity_index.should.eql 0
-    
+
+  describe ".parse_raw", ->
+    describe "simple editing", ->
+      repo = fixtures.tagged
+      stdout = """
+        :100644 100644 95f6539... 0466f13... M  file.txt
+      """
+      diffs = Diff.parse_raw repo, stdout
+
+      it "is an Array of Diffs", ->
+        diffs.should.be.an.instanceof Array
+        diffs[0].should.be.an.instanceof Diff
+
+      it "has one diff", ->
+        diffs.should.have.lengthOf 1
+
+      describe "the first diff", ->
+        diff = diffs[0]
+
+        it "has the repo", ->
+          diff.repo.should.eql repo
+
+        for blob in ["a_blob", "b_blob"]
+          it "has a #{blob}", ->
+            diff[blob].should.be.an.instanceof Blob
+
+        for path in ["a_path", "b_path"]
+          it "has a #{path}", ->
+            diff[path].should.eql "file.txt"
+
+        it "has a b_mode", ->
+          diff.b_mode.should.eql "100644"
+
+        for change in ["new_file", "renamed_file", "deleted_file"]
+          it "#{change} is false", ->
+            diff[change].should.be.false
+
+        it "has a similarity_index of 0", ->
+          diff.similarity_index.should.eql 0
+
     describe "delete a file", ->
       repo   = fixtures.branched
       stdout = """
@@ -70,15 +109,15 @@ describe "Diff", ->
           -!!!
         """
       diffs = Diff.parse repo, stdout
-      
+
       it "has 2 diffs", ->
         diffs.should.have.lengthOf 2
-      
+
       describe "the second diff", ->
         diff = diffs[1]
         it "deletes a file", ->
           diff.deleted_file.should.be.true
-    
+
     describe "create a file", ->
       repo   = fixtures.branched
       stdout = """
@@ -91,8 +130,8 @@ describe "Diff", ->
           +!!!
         """
       diffs = Diff.parse repo, stdout
-      
+
       it "creates a file", ->
         diffs[0].new_file.should.be.true
-      
+
 

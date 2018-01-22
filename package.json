@@ -1,33 +1,42 @@
-{ "name":        "gift"
-, "version":     "0.0.6"
-, "description": "a Git wrapper library"
-, "keywords":   ["git"]
-, "homepage":    "https://github.com/sentientwaffle/gift"
-, "bugs": {"url": "https://github.com/sentientwaffle/gift/issues"}
-, "author":
-  { "name": "sentientwaffle"
-  , "url":  "http://sentientwaffle.github.com/"
+{
+  "name": "gift",
+  "version": "0.10.2",
+  "description": "a Git wrapper library",
+  "keywords": [
+    "git",
+    "cli",
+    "wrapper"
+  ],
+  "homepage": "https://github.com/notatestuser/gift",
+  "bugs": {
+    "url": "https://github.com/notatestuser/gift/issues"
+  },
+  "author": {
+    "name": "sentientwaffle",
+    "url": "http://sentientwaffle.github.com/"
+  },
+  "license": "MIT",
+  "main": "./lib/index",
+  "scripts": {
+    "test": "mocha --compilers coffee:\"./node_modules/coffee-script/lib/coffee-script/register\"",
+    "prepublish": "coffee -o lib -c src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notatestuser/gift.git"
+  },
+  "dependencies": {
+    "flex-exec": "^1.0.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.12.7",
+    "fs-extra": "^4.0.2",
+    "mocha": "^4.0.1",
+    "should": "^13.1.3",
+    "sinon": "^4.1.1"
+  },
+  "engines": {
+    "node": ">=4"
   }
-
-, "main": "./lib/index"
-
-, "scripts":
-  { "test":       "mocha --compilers coffee:'./node_modules/coffee-script/lib/coffee-script/coffee-script'"
-  , "prepublish": "coffee -o lib -c src"
-  }
-
-, "repository":
-  { "type": "git"
-  , "url":  "https://github.com/sentientwaffle/gift.git"
-  }
-
-, "dependencies": {"underscore": "1.x.x"}
-, "devDependencies":
-  { "should":        "1.2.x"
-  , "mocha":         "1.x.x"
-  , "sinon":         "1.6.x"
-  , "coffee-script": "1.6.x"
-  }
-
-, "engines": {"node": "> 0.4.1"}
 }
