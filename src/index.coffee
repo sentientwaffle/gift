@@ -1,5 +1,5 @@
-{exec} = require 'child_process'
-Repo   = require './repo'
+exec = require 'flex-exec'
+Repo = require './repo'
 
 # Public: Create a Repo from the given path.
 #
@@ -20,13 +20,13 @@ Git.maxBuffer = 5000 * 1024
 Git.init = (path, bare, callback) ->
   [bare, callback] = [callback, bare] if !callback
   if bare
-    bash = "git init --bare ."
+    bash = ["git", "init", "--bare", "."]
   else
-    bash = "git init ."
+    bash = ["git", "init", "."]
   exec bash, {cwd: path}
   , (err, stdout, stderr) ->
-    return callback err if err
-    return callback err, (new Repo path, bare, { maxBuffer: Git.maxBuffer })
+    return callback err if err instanceof Error
+    return callback null, (new Repo path, bare, { maxBuffer: Git.maxBuffer })
 
 # Public: Clone a git repository.
 #
@@ -42,13 +42,13 @@ Git.clone = (repository, path, depth = 0, branch = null, callback) ->
   if typeof depth is 'function'
     callback = depth
     depth = 0
-  bash = "git clone \"#{repository}\" \"#{path}\""
+  bash = ["git", "clone", repository, path]
 
   if branch isnt null and typeof branch is 'string'
-    bash += " --branch \"#{branch}\""
+    bash.push("--branch", branch)
   if depth isnt 0 and typeof depth is 'number'
-    bash += " --depth \"#{depth}\""
+    bash.push("--depth", depth)
 
   exec bash, (err, stdout, stderr) ->
-    return callback err if err
-    return callback err, (new Repo path, false, { maxBuffer: Git.maxBuffer })
+    return callback err if err instanceof Error
+    return callback null, (new Repo path, false, { maxBuffer: Git.maxBuffer })

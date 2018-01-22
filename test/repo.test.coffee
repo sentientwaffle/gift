@@ -12,7 +12,7 @@ Tag      = require '../src/tag'
 Status   = require '../src/status'
 
 {Ref, Head} = require '../src/ref'
-{exec}      = require 'child_process'
+exec        = require 'flex-exec'
 
 describe "Repo", ->
 

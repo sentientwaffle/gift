@@ -2,7 +2,7 @@ should = require 'should'
 git    = require '../src'
 Repo   = require '../src/repo'
 fs     = require "fs"
-{exec} = require 'child_process'
+exec   = require 'flex-exec'
 
 describe "git", ->
   describe "()", ->

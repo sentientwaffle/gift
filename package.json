@@ -26,6 +26,7 @@
     "url": "https://github.com/notatestuser/gift.git"
   },
   "dependencies": {
+    "flex-exec": "^1.0.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
