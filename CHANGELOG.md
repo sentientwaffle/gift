@@ -1,7 +1,73 @@
 ## Change Log
 
+### v0.10.2 (2018/01/22 16:01 +00:00)
+- [d42dc58](https://github.com/notatestuser/gift/commit/d42dc58cee4cd03470fb94c77e921ce717dc39fe) Upgrade npm package dependencies (#100) (@PeterDaveHello)
+- [34f338c](https://github.com/notatestuser/gift/commit/34f338c81ebbcf2460d67fc9467221b5c04d8af5) travis.yml: removed legacy nodes (@notatestuser)
+- [ec03a91](https://github.com/notatestuser/gift/commit/ec03a91db2faf1b00b2f6120f9f0a2b27fec267f) package.json: bumped required node version (@notatestuser)
+- [3f18c3d](https://github.com/notatestuser/gift/commit/3f18c3d7092dd8c5f912d80b86c39b9bcb2a8892) Update readme (#101) (@PeterDaveHello)
+- [bff9d42](https://github.com/notatestuser/gift/commit/bff9d42b608214259a10996cc747dde2946d0c49) Fixed shell expansion/word splitting and injection vulns (@notatestuser)
+- [6649250](https://github.com/notatestuser/gift/commit/6649250e7301a1c973064234ace5eeb5bff2f951) Added package-lock.json (@notatestuser)
+- [1eb7372](https://github.com/notatestuser/gift/commit/1eb737244db7a40aeead9b3d61b758842844663f) Applied tweaks from #38 (@notatestuser)
+- [3baa70b](https://github.com/notatestuser/gift/commit/3baa70b8522d0081fcd90bedb62ec4d03c33d2f8) Version 0.10.2 (@notatestuser)
+
+### v0.10.1 (2017/11/06 13:06 +00:00)
+- [b609d3d](https://github.com/notatestuser/gift/commit/b609d3d77b8964fba54404bebd8ac7bdcb83ac2a) Add force delete (#97) (@jmcgill)
+- [a301b45](https://github.com/notatestuser/gift/commit/a301b4575a70fd4bf4e3f413910ed7538e601e5d) Update Travis CI configuration (@PeterDaveHello)
+- [#99](https://github.com/notatestuser/gift/pull/99) Merge pull request #99 from PeterDaveHello/update-travis-ci-config (@PeterDaveHello)
+- [20ee383](https://github.com/notatestuser/gift/commit/20ee38379ea968d10040e2833b77345668df65e9) Use regex to improve commit id/hash test, cc #96 (@PeterDaveHello)
+- [#98](https://github.com/notatestuser/gift/pull/98) Merge pull request #98 from PeterDaveHello/valid-commit-id (@PeterDaveHello)
+- [ecbc4e7](https://github.com/notatestuser/gift/commit/ecbc4e7317b26e3c525dd0964623239b920f99ab) Version 0.10.1 (@notatestuser)
+
+### v0.10.0 (2016/11/13 16:14 +00:00)
+- [63aac64](https://github.com/notatestuser/gift/commit/63aac64604753f99c9af71666797b4453c3ab0d1) docs: the options arg in ls_files is not optional for now (@notatestuser)
+- [0c39473](https://github.com/notatestuser/gift/commit/0c394739d61d5a44ab03b6954780281b11b65933) docs: added Repo#ls_files (@notatestuser)
+- [155c6f7](https://github.com/notatestuser/gift/commit/155c6f7d6a924598a446df38ac53ab9038e1188a) src/repo: fixed single argument form of ls_files (@notatestuser)
+- [76002ca](https://github.com/notatestuser/gift/commit/76002ca549ccdec733fd490d634c5bbf0749e183) support shallow clone a repo on a specific branch. (#91) (@sparkleholic)
+- [980ddcb](https://github.com/notatestuser/gift/commit/980ddcb658f4f03620a57982ba15fa9ce66c0d12) Merge branch 'master' into develop (@notatestuser)
+- [ca8c35b](https://github.com/notatestuser/gift/commit/ca8c35b5e988b78b30d3b64d493db58fca7b5d48) Version 0.10.0 (@notatestuser)
+
+### v0.9.0 (2016/07/06 06:58 +00:00)
+- [cced205](https://github.com/notatestuser/gift/commit/cced2057ea95f7db62a5adc199a4bf9081b13510) Add support to `describe` a commit (#88) (@cjbarth)
+- [25af97c](https://github.com/notatestuser/gift/commit/25af97c70c7aefc2a9fea135d451fd51141efc81) readme: s/description/describe/ (@notatestuser)
+- [951ba4c](https://github.com/notatestuser/gift/commit/951ba4c0b21036e6e87b4e68cbf0a6c60e59a4fd) Support file arguments for ls-files (@htanjo)
+- [fbc63ff](https://github.com/notatestuser/gift/commit/fbc63ff214ecb2b8002c70d2efde572ec9b9116d) Use arguments.length to support prior calls to ls_files (#83) (@notatestuser)
+- [69e4714](https://github.com/notatestuser/gift/commit/69e47144197971a5235fc1c57e1b9ba41a115e3a) Version 0.9.0 (@notatestuser)
+
+### v0.8.0 (2016/05/12 04:23 +00:00)
+- [35e9e60](https://github.com/notatestuser/gift/commit/35e9e60aa2cb2a58e95a4a8dafd96f9b9da695d2) Update .travis.yml (@PeterDaveHello)
+- [#75](https://github.com/notatestuser/gift/pull/75) Merge pull request #75 from PeterDaveHello/patch-2 (@PeterDaveHello)
+- [28567a2](https://github.com/notatestuser/gift/commit/28567a2a7d8f80aac80ce5b70efa5d8f2e1dc94c) Add Repo#pull to README (@deployable)
+- [#81](https://github.com/notatestuser/gift/pull/81) Merge pull request #81 from deployable/patch-1 (@deployable)
+- [d6ed167](https://github.com/notatestuser/gift/commit/d6ed167156b0be54001ea6227c9def5e6a2d5e12) Pass options to git checkout (@asgoth)
+- [eaf7a6f](https://github.com/notatestuser/gift/commit/eaf7a6f2ee80fad2fa95397ee6ed96e7e3f2e0e8) Improve tests (@asgoth)
+- [17a234f](https://github.com/notatestuser/gift/commit/17a234f4296be1446318000b3533b6e01dd7cc9d) Update readme (@asgoth)
+- [#84](https://github.com/notatestuser/gift/pull/84) Merge pull request #84 from asgoth/feature/checkout-pass-options (@asgoth)
+- [687feb7](https://github.com/notatestuser/gift/commit/687feb770ede1878ee9c8a47d0af4a4420c8b44b) Fix the order of arguments in git.cmd() (#86) (@MartinKolarik)
+- [0a74d63](https://github.com/notatestuser/gift/commit/0a74d638585c5d772ad06d7fd63b0d61ac1b4a1f) Merge remote-tracking branch 'ajcrites/remote-options' (@notatestuser)
+- [8b5f91e](https://github.com/notatestuser/gift/commit/8b5f91e2fca2a56a98ddedcd5d0b1ceee7b20b37) readme: moved badges around (@notatestuser)
+- [84b3b03](https://github.com/notatestuser/gift/commit/84b3b034a73bd64546369b6aa09e98a9225e7e9e) .travis.yml: added node v5.1 build target (@notatestuser)
+- [f28673a](https://github.com/notatestuser/gift/commit/f28673ad21b7ef289075b585796e85231212095a) readme: added a comment about node versions (@notatestuser)
+- [23dd331](https://github.com/notatestuser/gift/commit/23dd331e1dd20bed5400ce01073c2269b1035f46) Version 0.8.0 (@notatestuser)
+
+### v0.7.0 (2015/11/16 11:32 +00:00)
+- [707a54c](https://github.com/notatestuser/gift/commit/707a54c6782402a964b07f029b38a55666f68e02) Added changelog (@notatestuser)
+- [bc27a6b](https://github.com/notatestuser/gift/commit/bc27a6b3905a6fdfb83a2e41d2ddd61f75fe6778) update devDependencies, all of them were out of date (@PeterDaveHello)
+- [#43](https://github.com/notatestuser/gift/pull/43) Merge pull request #43 from PeterDaveHello/update_dev_dependencies (@PeterDaveHello)
+- [caddd22](https://github.com/notatestuser/gift/commit/caddd229b377b60a2692d1fc1829f59078974e86) Add a public override for the maxBuffer option (@gtanner)
+- [#68](https://github.com/notatestuser/gift/pull/68) Merge pull request #68 from gtanner/master (@gtanner)
+- [0ad98d0](https://github.com/notatestuser/gift/commit/0ad98d063675ff6fa726499c46ce905b296c97d9) Update .travis.yml (@PeterDaveHello)
+- [d2f131a](https://github.com/notatestuser/gift/commit/d2f131a7eb0be0bf19c37c585c44b761a0519005) bump dependencies, npm test passed (@PeterDaveHello)
+- [#69](https://github.com/notatestuser/gift/pull/69) Merge pull request #69 from PeterDaveHello/dependencies (@PeterDaveHello)
+- [#70](https://github.com/notatestuser/gift/pull/70) Merge pull request #70 from PeterDaveHello/patch-2 (@PeterDaveHello)
+- [73376e4](https://github.com/notatestuser/gift/commit/73376e4c28408bbebe2a15daefe9d90907fb2b84) Handle HG:Extra lines in commit parsing (@gtanner)
+- [#71](https://github.com/notatestuser/gift/pull/71) Merge pull request #71 from gtanner/master (@gtanner)
+- [e414fc5](https://github.com/notatestuser/gift/commit/e414fc518d3f600afb1cdf8c763a07521d9fefbd) Quoted params in clone bash. see #58 (@notatestuser)
+- [d099f2f](https://github.com/notatestuser/gift/commit/d099f2fab23bf3c907ed1d702537b189a1c08b83) Support git's shallow clone (@PeterDaveHello)
+- [ab4de66](https://github.com/notatestuser/gift/commit/ab4de6660f2b334d3cee46427500d258d454ac70) Maintaining backward compatibility in clone() signature (@notatestuser)
+- [1d7cf1c](https://github.com/notatestuser/gift/commit/1d7cf1cf1e1c89754d898c1a85f73a1934a3c1b3) Bumped version to 0.7.0 (@notatestuser)
+
 ### v0.6.1 (2015/07/02 05:46 +00:00)
-- [524383b](https://github.com/notatestuser/gift/commit/524383b33623619cbdd8d3f565e11f91bdd139fa) handle hg converted gpg lines (@Connoropolous)
+- [524383b](https://github.com/notatestuser/gift/commit/524383b33623619cbdd8d3f565e11f91bdd139fa) handle hg converted gpg lines
 - [4072486](https://github.com/notatestuser/gift/commit/40724861761b7ab2b4f39ac45c22b74638443ab5) Add license attribute (@pdehaan)
 - [#64](https://github.com/notatestuser/gift/pull/64) Merge pull request #64 from pdehaan/patch-1 (@pdehaan)
 - [6958dd5](https://github.com/notatestuser/gift/commit/6958dd5181dfcc65ce81bddd4f0fcc70b759d5f0) Removed redundant if guard in hg gpg garbage removal (@notatestuser)
@@ -10,8 +76,8 @@
 
 ### v0.6.0 (2015/04/14 21:21 +00:00)
 - [fdc8399](https://github.com/notatestuser/gift/commit/fdc83998c8c40ffdaa05592ae9f2329a430b3e91) enable specify git binary location along with other options in the constructor
-- [08690db](https://github.com/notatestuser/gift/commit/08690dba32f3455ab3571cd5de85b3eda215fc68) set 'utf8' encoding as default (@BastienLQ)
-- [dd2ff80](https://github.com/notatestuser/gift/commit/dd2ff8027a7798d82632cba77f0d4aa9d3562364) Adjusted maxBuffer sent to exec for large repos (@serialworm)
+- [08690db](https://github.com/notatestuser/gift/commit/08690dba32f3455ab3571cd5de85b3eda215fc68) set 'utf8' encoding as default (@BLeQuerrec)
+- [dd2ff80](https://github.com/notatestuser/gift/commit/dd2ff8027a7798d82632cba77f0d4aa9d3562364) Adjusted maxBuffer sent to exec for large repos (@esatterwhite)
 - [c604401](https://github.com/notatestuser/gift/commit/c6044016288a76cc90e3294c9ea9014e3524281f) double quotes work better on windows both inside and outside of cygwin (@zippy1981)
 - [#60](https://github.com/notatestuser/gift/pull/60) Merge pull request #60 from zippy1981/quoting (@zippy1981)
 - [#57](https://github.com/notatestuser/gift/pull/57) Merge pull request #57 from serialworm/master (@serialworm)
@@ -21,12 +87,12 @@
 ### v0.5.0 (2014/11/17 20:27 +00:00)
 - [c610bc5](https://github.com/notatestuser/gift/commit/c610bc56fc53aed0e009d8d98b093bcdca10709d) Use svg instead of png to get better image quality (@PeterDaveHello)
 - [#40](https://github.com/notatestuser/gift/pull/40) Merge pull request #40 from PeterDaveHello/patch-2 (@PeterDaveHello)
-- [da23cc0](https://github.com/notatestuser/gift/commit/da23cc0f605be16e0e22abc9e2c7073028d1bd46) add -u flag to list files in untracked directories
-- [a4f691a](https://github.com/notatestuser/gift/commit/a4f691afe1338bac63ae4f56bb78cb4f0526dc28) add options to status
-- [1d4b528](https://github.com/notatestuser/gift/commit/1d4b528c08233f26ce36486943c7f0ccc0edb85b) update package devdependencies
-- [184a308](https://github.com/notatestuser/gift/commit/184a308ad6fa359bfd1b3d5862b1aeeb575b0fdb) update travis.yml to fix build on 0.8
-- [4b7fa3f](https://github.com/notatestuser/gift/commit/4b7fa3f43df7b2e0b9a7542763a5d2724e8cf7c7) update npm to 1.4.28
-- [41380b0](https://github.com/notatestuser/gift/commit/41380b0a69f00f22327ed11895ea05a098b1d975) bump version file
+- [da23cc0](https://github.com/notatestuser/gift/commit/da23cc0f605be16e0e22abc9e2c7073028d1bd46) add -u flag to list files in untracked directories (@007design)
+- [a4f691a](https://github.com/notatestuser/gift/commit/a4f691afe1338bac63ae4f56bb78cb4f0526dc28) add options to status (@007design)
+- [1d4b528](https://github.com/notatestuser/gift/commit/1d4b528c08233f26ce36486943c7f0ccc0edb85b) update package devdependencies (@007design)
+- [184a308](https://github.com/notatestuser/gift/commit/184a308ad6fa359bfd1b3d5862b1aeeb575b0fdb) update travis.yml to fix build on 0.8 (@007design)
+- [4b7fa3f](https://github.com/notatestuser/gift/commit/4b7fa3f43df7b2e0b9a7542763a5d2724e8cf7c7) update npm to 1.4.28 (@007design)
+- [41380b0](https://github.com/notatestuser/gift/commit/41380b0a69f00f22327ed11895ea05a098b1d975) bump version file (@007design)
 - [52f70dd](https://github.com/notatestuser/gift/commit/52f70dd3775247ae12303c0d5011bb5ce3a04e2a) Adding support for "remote set-url" (@bpartridge83)
 - [1209a68](https://github.com/notatestuser/gift/commit/1209a68a34ae9b6dd1d169af31a3b748841dbdfe) Deleting a remote URL (git remote set-url --delete...) (@bpartridge83)
 - [9ba915b](https://github.com/notatestuser/gift/commit/9ba915bbd64b453bfe89b72f5490742903649d8b) Updating README to document new set-url functions (@bpartridge83)
@@ -35,7 +101,7 @@
 - [#48](https://github.com/notatestuser/gift/pull/48) Merge pull request #48 from esalter/master (@esalter)
 - [43e5d51](https://github.com/notatestuser/gift/commit/43e5d51755ad1ee7c3cfd17a3d1a16f5fd7d4de5) Newlines or something (@notatestuser)
 - [4c600df](https://github.com/notatestuser/gift/commit/4c600dfa4b97eea13ccec67717ed18e7d730094d) Added Repo#remote_set_url (@notatestuser)
-- [f28aaa4](https://github.com/notatestuser/gift/commit/f28aaa476103ae157ed1150eaf644c118ccea6f8) update README
+- [f28aaa4](https://github.com/notatestuser/gift/commit/f28aaa476103ae157ed1150eaf644c118ccea6f8) update README (@007design)
 - [#45](https://github.com/notatestuser/gift/pull/45) Merge pull request #45 from 007design/master (@007design)
 - [8085451](https://github.com/notatestuser/gift/commit/808545151e5675d06a94eaca9ad6416ae16cd5cb) Removed a console.log (@notatestuser)
 - [93e180f](https://github.com/notatestuser/gift/commit/93e180f023a3dd0a00384036d805fde385f33837) Bumped version to 0.5.0 (@notatestuser)
@@ -66,6 +132,7 @@
 - [16842b8](https://github.com/notatestuser/gift/commit/16842b87b17df10e7763d363cac09f96fe63122b) Add test to reproduce the error caused by (no branch).
 - [d85f686](https://github.com/notatestuser/gift/commit/d85f686d388e333abde2ac89020f2f127d9d7e9d) Fix test: return error when the current branch check out to a commit.
 - [#31](https://github.com/notatestuser/gift/pull/31) Merge pull request #31 from maschs/f-checkoutFiles (@maschs)
+- [06bacc9](https://github.com/notatestuser/gift/commit/06bacc9217f8a4e8d786ada582413b62d5c3ec41) Allow options to be specified for fetch, push, and merge operations (@ajcrites)
 - [3186861](https://github.com/notatestuser/gift/commit/3186861791876c64ca04cf775054a24628f6ab47) add devDependency info in readme (@PeterDaveHello)
 - [#35](https://github.com/notatestuser/gift/pull/35) Merge pull request #35 from PeterDaveHello/patch-1 (@PeterDaveHello)
 - [#33](https://github.com/notatestuser/gift/pull/33) Merge pull request #33 from shaoshing/no-branch (@shaoshing)
