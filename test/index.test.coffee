@@ -1,7 +1,7 @@
 should = require 'should'
 git    = require '../src'
 Repo   = require '../src/repo'
-fs     = require "fs"
+fs     = require "fs-extra"
 exec   = require 'flex-exec'
 
 describe "git", ->
@@ -23,7 +23,7 @@ describe "git", ->
       bare = repo.bare || false
       bare.should.be.false
     after (done) ->
-      exec "rm -rf #{newRepositoryDir}", done
+      fs.remove newRepositoryDir, done
 
   describe "init() bare", ->
     repo = null
@@ -38,7 +38,7 @@ describe "git", ->
       bare = repo.bare || false
       bare.should.be.true
     after (done) ->
-      exec "rm -rf #{newRepositoryDir}", done
+      fs.remove newRepositoryDir, done
 
   describe "clone()", ->
     @timeout 30000
@@ -54,7 +54,7 @@ describe "git", ->
         remotes.should.have.length 1
         done()
     after (done) ->
-      exec "rm -rf #{newRepositoryDir}", done
+      fs.remove newRepositoryDir, done
 
   describe "clone() with depth", ->
     @timeout 30000
@@ -70,7 +70,7 @@ describe "git", ->
         remotes.should.have.length 1
         done()
     after (done) ->
-      exec "rm -rf #{newRepositoryDir}", done
+      fs.remove newRepositoryDir, done
 
   describe "clone() with depth and branch", ->
     @timeout 30000
@@ -85,4 +85,4 @@ describe "git", ->
       repo.branch "develop", (err, head) ->
         done err
     after (done) ->
-      exec "rm -rf #{newRepositoryDir}", done
+      fs.remove newRepositoryDir, done
